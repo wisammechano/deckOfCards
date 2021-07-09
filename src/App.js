@@ -1,5 +1,10 @@
+import MainPage from "./containers/Mainpage";
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div>
+      <MainPage />
+    </div>
+  );
 }
 
 export default App;
