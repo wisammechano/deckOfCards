@@ -36,12 +36,12 @@
   color: #fca311;
   background: white;
 }
-.cardsContainer{
+.cardsContainer {
   display: flex;
   flex-direction: row;
-  
 }
 .card {
+  margin: 50px;
   width: 13rem;
   height: 18rem;
 }

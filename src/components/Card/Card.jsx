@@ -1,17 +1,17 @@
 const Card = ({ cardValues }) => {
   // console.log(typeof cardValues.cards);
   return (
-    <div>
+    <div className="cardsContainer">
       {cardValues
         ? cardValues.map((values) => {
-            return (
-              <div className="cardsContainer">
-                <div className="card">
-                  <img src={values.image} alt={values.suit} />
-                </div>
+          return (
+          
+              <div key={values.code} className="card">
+                <img src={values.image} alt={values.suit} />
               </div>
-            );
-          })
+            
+          );
+        })
         : console.warn("there is no data")}
     </div>
   );

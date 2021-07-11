@@ -1,6 +1,21 @@
 import { useState, useEffect } from "react";
 import "../App.css";
 import Card from "../components/Card/Card";
+const VALUES = {
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  "10": 10,
+  "JACK": 11,
+  "QUEEN": 12,
+  "KING": 13,
+  "ACE": 14,
+};
 const MainPage = () => {
   const BASE_URL =
     "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
@@ -21,7 +36,22 @@ const MainPage = () => {
     const deckData = await res.json();
     setDeckDraw(deckData.cards);
   };
-  console.log(deckDraw);
+  console.log(deckDraw)
+  const winerOrLoser = () => {
+    let p1, p2;
+    if (deckDraw) {
+      p1 = deckDraw[0].value;
+      p2 = deckDraw[1].value;
+    }
+    if (VALUES[p1] > VALUES[p2]) {
+      return <h1>Player 1 wins</h1>
+    } else if (VALUES[p2] > VALUES[p1]) {
+      return <h1>Player 2 wins</h1>
+    } else {
+      return <h1>Draw</h1>
+    }
+
+  };
   return (
     <div className="container">
       <h1 className="heading">Deck of 52 cards</h1>
@@ -30,20 +60,11 @@ const MainPage = () => {
           Deal
         </button>
         <Card cardValues={deckDraw} />
+        {winerOrLoser()}
+
       </div>
     </div>
   );
 };
 
 export default MainPage;
-// {deckDraw
-//   ? deckDraw.cards.map((cardInfo) => {
-//       return (
-//         <div className="cardsContainer">
-//           <div className="card">
-//             <img src={cardInfo.image} alt={cardInfo.suit} />
-//           </div>
-//         </div>
-//       );
-//     })
-//   : console.warn("there is no data on deckDraw")}
