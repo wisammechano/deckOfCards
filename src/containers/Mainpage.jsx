@@ -24,6 +24,7 @@ const MainPage = () => {
   const [deckDraw, setDeckDraw] = useState();
   const [playerCards, setPlayerCards] = useState();
   const [cardsToggle, setCardsToggle] = useState(false)
+  const [bot, setBot] = useState(false);
   const piles = (player, card1, card2) => {
     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/pile/${player}/add/?cards=${card1},${card2}`)
       .then(res => res.json())
@@ -51,16 +52,34 @@ const MainPage = () => {
     };
 
     if (cardsToggle) {
-      drawGame()
+      drawGame();
       setInterval(() => {
         setCardsToggle(false)
-      }, 100)
+
+      }, 4000)
 
     }
-  })
-  console.log(deckId)
+    // if (!cardsToggle) {
 
-  console.log(cardsToggle)
+    // }
+    // if (cardsToggle === false) {
+    //   setBot(!bot)
+    //   if (bot) {
+    //     drawGame();
+    //     setInterval(() => {
+    //       setBot(false)
+
+    //     }, 100)
+    //   }
+
+
+    // }
+
+
+  }, [cardsToggle, deckId, bot])
+  console.log("this is bot", bot);
+  console.log(cardsToggle);
+
 
   const winerOrLoser = () => {
     let p1, p2;
@@ -89,6 +108,7 @@ const MainPage = () => {
         <button className="button" onClick={() => setCardsToggle(!cardsToggle)}>
           Deal
         </button>
+        {cardsToggle ? <h2>Player 1 turn</h2> : <h2>Bot Turn</h2>}
         <Card cardValues={deckDraw} />
         {winerOrLoser()}
 
