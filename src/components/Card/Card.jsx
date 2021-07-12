@@ -5,11 +5,11 @@ const Card = ({ cardValues }) => {
       {cardValues
         ? cardValues.map((values) => {
           return (
-          
-              <div key={values.code} className="card">
-                <img src={values.image} alt={values.suit} />
-              </div>
-            
+
+            <div key={values.code} className="card">
+              <img src={values.image} alt={values.suit} />
+            </div>
+
           );
         })
         : console.warn("there is no data")}
@@ -17,13 +17,4 @@ const Card = ({ cardValues }) => {
   );
 };
 export default Card;
-// {
-//  {deckDraw
-//             ? deckDraw.cards.map((cardInfo) => {
-//                 return (
 
-//                 );
-//               })
-//             : console.warn("there is no data on deckDraw")}
-
-// }

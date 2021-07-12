@@ -19,8 +19,20 @@ const VALUES = {
 const MainPage = () => {
   const BASE_URL =
     "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
+
   const [deckId, setDeckId] = useState();
   const [deckDraw, setDeckDraw] = useState();
+  const [playerCards, setPlayerCards] = useState();
+  const [cardsToggle, setCardsToggle] = useState(false)
+  const piles = (player, card1, card2) => {
+    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/pile/${player}/add/?cards=${card1},${card2}`)
+      .then(res => res.json())
+      .then(piles => setPlayerCards(piles))
+      .catch(err => console.log(err))
+
+
+  }
+  console.log(playerCards)
   useEffect(() => {
     const gameStart = async () => {
       const res = await fetch(BASE_URL);
@@ -29,14 +41,27 @@ const MainPage = () => {
     };
     gameStart();
   }, []);
-  const drawGame = async () => {
-    const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`
-    );
-    const deckData = await res.json();
-    setDeckDraw(deckData.cards);
-  };
-  console.log(deckDraw)
+  useEffect(() => {
+    const drawGame = async () => {
+      const res = await fetch(
+        `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`
+      );
+      const deckData = await res.json();
+      setDeckDraw(deckData.cards);
+    };
+
+    if (cardsToggle) {
+      drawGame()
+      setInterval(() => {
+        setCardsToggle(false)
+      }, 100)
+
+    }
+  })
+  console.log(deckId)
+
+  console.log(cardsToggle)
+
   const winerOrLoser = () => {
     let p1, p2;
     if (deckDraw) {
@@ -44,19 +69,24 @@ const MainPage = () => {
       p2 = deckDraw[1].value;
     }
     if (VALUES[p1] > VALUES[p2]) {
+      piles('mahmoud', deckDraw[0].code, deckDraw[1].code)
+
       return <h1>Player 1 wins</h1>
     } else if (VALUES[p2] > VALUES[p1]) {
+
+
       return <h1>Player 2 wins</h1>
     } else {
       return <h1>Draw</h1>
     }
 
   };
+
   return (
     <div className="container">
       <h1 className="heading">Deck of 52 cards</h1>
       <div className="main">
-        <button className="button" onClick={drawGame}>
+        <button className="button" onClick={() => setCardsToggle(!cardsToggle)}>
           Deal
         </button>
         <Card cardValues={deckDraw} />
